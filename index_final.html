@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+  <style>
+
+      div.type1_buttons {
+        position:fixed;
+        top:200px;
+        left:1000px;
+      }
+
+      div.type1_buttons {
+        background-color: rgb(251, 201, 127);
+        padding: 3px;
+        margin: 7px;
+
+      }
+
+      div.type2_buttons {
+        position:fixed;
+        top:250px;
+        left:1000px;
+      }
+
+      div.type2_buttons {
+        background-color: rgb(251, 201, 127);
+        padding: 3px;
+        margin: 7px;
+
+      }
+
+      h1 {
+        text-align: center;
+        color:black;
+      }
+
+      h2 {
+        text-align: center;
+        color:black;
+
+      }
+
+      svg {
+        position:relative;
+        left:250px;
+
+      }
+
+      svg {
+        position:relative;
+        left:250px;
+
+      }
+
+  </style>
+
+
+  <script type="text/javascript">
+
+
+
+    function draw(data) {
+
+
+      // d3.select("body")
+      //     .append("h2")
+      //     .text("all");
+
+      //set canvas
+      "use strict";
+
+      var  width = 800 ;
+      var height = 500 ;
+
+
+
+
+        //draw initial chart
+        var svg = dimple.newSvg("#chart", width, height);
+        var data_draw = dimple.filterData(data, "filter", "all");
+        var myChart = new dimple.chart(svg, data_draw);
+        var x = myChart.addCategoryAxis("x", "category");
+        x.fontSize = "15px";
+        var y = myChart.addMeasureAxis("y", "percentage");
+        y.overrideMax = 1;
+        y.fontSize = "15px";
+        y.tickFormat = "%";
+        myChart.defaultColors = [
+          new dimple.color("gray")
+
+        ];
+
+
+
+        myChart.addSeries(null, dimple.plot.bar);
+        myChart.draw();
+
+        var svg2 = dimple.newSvg("#chart", width, height);
+        var data_draw2 = dimple.filterData(data, "filter", "all");
+        var myChart2 = new dimple.chart(svg2, data_draw2);
+        var x2 = myChart2.addCategoryAxis("x", "category");
+        x2.fontSize = "15px";
+        var y2 = myChart2.addMeasureAxis("y", "amount");
+
+        y2.fontSize = "15px";
+
+        myChart2.defaultColors = [
+          new dimple.color("gray")
+
+        ];
+
+
+
+        myChart2.addSeries(null, dimple.plot.bar);
+        myChart2.draw();
+
+
+
+        // 根据按下的按钮，更新柱状图内容
+        function update(t) {
+          //更新副标题
+          d3.select("h2")
+            .text(t);
+          //更新图表1
+          debugger;
+
+          svg.selectAll("*").remove();
+          svg2.selectAll("*").remove();
+
+
+          var data_draw = dimple.filterData(data, "filter", t);
+          var myChart = new dimple.chart(svg, data_draw);
+          if(t == "Ticket class+sex") {
+            var x = myChart.addCategoryAxis("x", ["category", "type"]);
+            myChart.addLegend(500, 10, 510, 20, "left");
+
+          }
+          else {
+            var x = myChart.addCategoryAxis("x", "category");
+            myChart.defaultColors = [
+              new dimple.color("gray")
+            ];
+          }
+
+          x.fontSize = "15px";
+          if(t == "all") {
+            var y = myChart.addMeasureAxis("y", "percentage");
+          }
+          else {
+            var y = myChart.addMeasureAxis("y", "survived percentage");
+          }
+
+          y.overrideMax = 1;
+          y.fontSize = "15px";
+          y.tickFormat = "%";
+
+
+          myChart.addSeries("type", dimple.plot.bar);
+          myChart.draw();
+
+          //更新图表2
+
+          var data_draw2 = dimple.filterData(data, "filter", t);
+          var myChart2 = new dimple.chart(svg2, data_draw2);
+          if(t == "Ticket class+sex") {
+            var x2 = myChart2.addCategoryAxis("x", ["category","type"]);
+            myChart2.addLegend(500, 10, 510, 20, "left");
+          }
+          else {
+            var x2 = myChart2.addCategoryAxis("x", "category");
+            myChart2.defaultColors = [
+              new dimple.color("gray")
+            ];
+          }
+
+          x2.fontSize = "15px";
+
+          var y2 = myChart2.addMeasureAxis("y", "amount");
+
+
+
+
+          y2.fontSize = "15px";
+
+
+
+
+
+          myChart2.addSeries("type", dimple.plot.bar);
+          myChart2.draw();
+
+
+
+
+        }
+
+
+      var buttons1_labels = ["all"];
+      var buttons2_labels = ["Ticket class", "age", "sex", "Ticket class+sex"]
+
+      var buttons1 = d3.select("body")
+                      .append("div")
+                      .attr("class", "button type1_buttons")
+                      .selectAll("div")
+                      .data(buttons1_labels)
+                      .enter()
+                      .append("div")
+                      .text(function(d) {return d;});
+
+      var buttons2 = d3.select("body")
+                      .append("div")
+                      .attr("class", "button type2_buttons")
+                      .selectAll("div")
+                      .data(buttons2_labels)
+                      .enter()
+                      .append("div")
+                      .text(function(d) {return d;});
+
+       buttons1.on("click", function(d) {
+                             d3.selectAll(".button")
+                               .selectAll("div")
+                               .transition()
+                               .duration(100)
+                               .style("color", "black")
+                               .style("background", "rgb(251, 201, 127)");
+
+                             d3.select(this)
+                               .transition()
+                               .duration(100)
+                               .style("background", "lightBlue")
+                               .style("color", "white");
+
+
+                               update(d);
+
+                           });
+
+         buttons2.on("click", function(d) {
+                               d3.selectAll(".button")
+                                 .selectAll("div")
+                                 .transition()
+                                 .duration(100)
+                                 .style("color", "black")
+                                 .style("background", "rgb(251, 201, 127)");
+
+                               d3.select(this)
+                                 .transition()
+                                 .duration(100)
+                                 .style("background", "lightBlue")
+                                 .style("color", "white");
+
+
+                                 update(d);
+
+                             });
+
+
+    };
+  </script>
+</head>
+
+<body>
+<h1> 谁能在泰坦尼克号上生存下来？</h1>
+<h2> all </h2>
+<div class="row">
+  <div id="chart"></div>
+</div>
+
+
+  <script type="text/javascript">
+
+      d3.csv("Titanic_final2.csv", draw);
+
+  </script>
+</body>
+
+</html>

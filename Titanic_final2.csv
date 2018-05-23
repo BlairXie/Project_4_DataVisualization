@@ -1,0 +1,17 @@
+,amount,category,filter,percentage,survived percentage,type
+0,342,survived,all,0.3838383838383838,,
+1,549,dead,all,0.6161616161616161,,
+2,216,class 1,Ticket class,,0.6296296296296297,
+3,184,class 2,Ticket class,,0.47282608695652173,
+4,491,class 3,Ticket class,,0.24236252545824846,
+5,139,minor(<=18),age,,0.5035971223021583,
+6,26,elder(>=60),age,,0.2692307692307692,
+7,549,else,age,,0.3879781420765027,
+8,314,female,sex,,0.7420382165605095,
+9,577,male,sex,,0.18890814558058924,
+10,94,class 1,Ticket class+sex,,0.36885245901639346,male
+11,76,class 2,Ticket class+sex,,0.1574074074074074,male
+12,144,class 3,Ticket class+sex,,0.13544668587896252,male
+13,122,class 1,Ticket class+sex,,0.9680851063829787,female
+14,108,class 2,Ticket class+sex,,0.9210526315789473,female
+15,347,class 3,Ticket class+sex,,0.5,female
